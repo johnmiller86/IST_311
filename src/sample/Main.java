@@ -1,15 +1,20 @@
 package sample;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -26,7 +31,8 @@ public class Main extends Application {
         grid.setPadding(new Insets(25, 25, 25, 25));
 
         Text scenetitile = new Text("Welcome");
-        scenetitile.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+//        scenetitile.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        scenetitile.setId("welcome-text");
         grid.add(scenetitile, 0, 0, 2, 1);
 
         Label username = new Label ("User Name:");
@@ -41,11 +47,31 @@ public class Main extends Application {
         PasswordField pwBox = new PasswordField();
         grid.add(pwBox, 1, 2);
 
+        Button button = new Button("Sign in");
+        HBox hbBtn = new HBox(10);
+        hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
+        hbBtn.getChildren().add(button);
+        grid.add(hbBtn, 1, 4);
+
+        final Text actiontarget = new Text();
+        grid.add(actiontarget, 1, 6);
+
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+//                actiontarget.setFill(Color.FIREBRICK);
+                actiontarget.setText("Sign in button pressed");
+                actiontarget.setId("actiontarget");
+            }
+        });
+
         primaryStage.setTitle("IST 311 Form");
 
-        grid.setGridLinesVisible(true);
-
-        primaryStage.setScene(new Scene(grid, 300, 275));
+//        grid.setGridLinesVisible(true);
+        Scene scene = new Scene(grid, 300, 275);
+        scene.getStylesheets().add(this.getClass().getResource("styles.css").toExternalForm());
+//        primaryStage.setScene(new Scene(grid, 300, 275).getStylesheets().add(Main.class.getResource("styles.css").toExternalForm()));
+        primaryStage.setScene(scene);
         primaryStage.show();
     }
 
